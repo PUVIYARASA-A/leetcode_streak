@@ -1,0 +1,19 @@
+class Solution:
+    def findMaxFish(self, grid: List[List[int]]) -> int:
+        def dfs(x, y):
+            if x < 0 or x >= rows or y < 0 or y >= cols or grid[x][y] == 0:
+                return 0
+            fish = grid[x][y]
+            grid[x][y] = 0  
+            fish += dfs(x + 1, y)
+            fish += dfs(x - 1, y)
+            fish += dfs(x, y + 1)
+            fish += dfs(x, y - 1)
+            return fish        
+        rows, cols = len(grid), len(grid[0])
+        max_fish = 0
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] > 0: 
+                    max_fish = max(max_fish, dfs(i, j))        
+        return max_fish
